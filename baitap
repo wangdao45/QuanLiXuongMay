@@ -1,0 +1,166 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+// ===== LỚP NHÂN VIÊN =====
+class NhanVien {
+protected:
+    string maNV, ten;
+
+public:
+    virtual void nhap() {
+        cout << "Ma NV: "; cin >> maNV;
+        cout << "Ten NV: "; cin.ignore(); getline(cin, ten);
+    }
+
+    virtual void xuat() {
+        cout << "Ma: " << maNV << ", Ten: " << ten;
+    }
+
+    virtual double tinhLuong() = 0; // đa hình
+};
+
+// ===== NHÂN VIÊN MAY =====
+class NhanVienMay : public NhanVien {
+private:
+    int soSP;
+
+public:
+    void nhap() override {
+        NhanVien::nhap();
+        cout << "So san pham: ";
+        cin >> soSP;
+    }
+
+    double tinhLuong() override {
+        return soSP * 5000;
+    }
+
+    void xuat() override {
+        NhanVien::xuat();
+        cout << ", Luong: " << tinhLuong() << endl;
+    }
+};
+
+// ===== LỚP SẢN PHẨM =====
+class SanPham {
+private:
+    string tenSP;
+    int soLuong;
+    double donGia;
+
+public:
+    void nhap() {
+        cout << "Ten SP: "; cin.ignore(); getline(cin, tenSP);
+        cout << "So luong: "; cin >> soLuong;
+        cout << "Don gia: "; cin >> donGia;
+    }
+
+    double thanhTien() {
+        return soLuong * donGia;
+    }
+
+    void xuat() {
+        cout << tenSP << " - " << soLuong << " - " << donGia << endl;
+    }
+};
+
+// ===== LỚP ĐƠN HÀNG =====
+class DonHang {
+private:
+    string maDon;
+    vector<SanPham> dsSP;
+
+public:
+    void nhap() {
+        cout << "Ma don: "; cin >> maDon;
+        int n;
+        cout << "So san pham: "; cin >> n;
+
+        for (int i = 0; i < n; i++) {
+            SanPham sp;
+            sp.nhap();
+            dsSP.push_back(sp);
+        }
+    }
+
+    double tongTien() {
+        double sum = 0;
+        for (auto sp : dsSP)
+            sum += sp.thanhTien();
+        return sum;
+    }
+
+    void xuat() {
+        cout << "Ma don: " << maDon << endl;
+        for (auto sp : dsSP)
+            sp.xuat();
+        cout << "Tong tien: " << tongTien() << endl;
+    }
+};
+
+// ===== QUẢN LÝ XƯỞNG =====
+class QuanLyXuongMay {
+private:
+    vector<NhanVien*> dsNV;
+    vector<DonHang> dsDon;
+
+public:
+    void themNhanVien() {
+        NhanVien* nv = new NhanVienMay();
+        nv->nhap();
+        dsNV.push_back(nv);
+    }
+
+    void themDonHang() {
+        DonHang dh;
+        dh.nhap();
+        dsDon.push_back(dh);
+    }
+
+    void hienThiNV() {
+        for (auto nv : dsNV)
+            nv->xuat();
+    }
+
+    void hienThiDon() {
+        for (auto dh : dsDon)
+            dh.xuat();
+    }
+
+    double tongDoanhThu() {
+        double sum = 0;
+        for (auto dh : dsDon)
+            sum += dh.tongTien();
+        return sum;
+    }
+};
+
+// ===== MAIN =====
+int main() {
+    QuanLyXuongMay ql;
+    int chon;
+
+    do {
+        cout << "\n===== MENU =====\n";
+        cout << "1. Them nhan vien\n";
+        cout << "2. Them don hang\n";
+        cout << "3. Hien thi NV\n";
+        cout << "4. Hien thi don\n";
+        cout << "5. Tong doanh thu\n";
+        cout << "0. Thoat\n";
+        cout << "Chon: ";
+        cin >> chon;
+
+        switch (chon) {
+            case 1: ql.themNhanVien(); break;
+            case 2: ql.themDonHang(); break;
+            case 3: ql.hienThiNV(); break;
+            case 4: ql.hienThiDon(); break;
+            case 5: cout << "Doanh thu: " << ql.tongDoanhThu(); break;
+        }
+
+    } while (chon != 0);
+
+    return 0;
+}
