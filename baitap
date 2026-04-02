@@ -16,7 +16,7 @@ public:
         cout << "Ma: " << maNV << ", Ten: " << ten;
     }
 
-    virtual double tinhLuong() = 0; // đa hình
+    virtual double tinhLuong() = 0; 
 };
 
 class NhanVienMay : public NhanVien {
