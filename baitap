@@ -2,7 +2,6 @@
 #include <vector>
 using namespace std;
 
-// ===== LỚP NHÂN VIÊN =====
 class NhanVien {
 protected:
     string maNV, ten;
@@ -20,7 +19,6 @@ public:
     virtual double tinhLuong() = 0; // đa hình
 };
 
-// ===== NHÂN VIÊN MAY =====
 class NhanVienMay : public NhanVien {
 private:
     int soSP;
@@ -42,7 +40,6 @@ public:
     }
 };
 
-// ===== LỚP SẢN PHẨM =====
 class SanPham {
 private:
     string tenSP;
@@ -65,7 +62,6 @@ public:
     }
 };
 
-// ===== LỚP ĐƠN HÀNG =====
 class DonHang {
 private:
     string maDon;
@@ -99,7 +95,6 @@ public:
     }
 };
 
-// ===== QUẢN LÝ XƯỞNG =====
 class QuanLyXuongMay {
 private:
     vector<NhanVien*> dsNV;
@@ -136,7 +131,6 @@ public:
     }
 };
 
-// ===== MAIN =====
 int main() {
     QuanLyXuongMay ql;
     int chon;
